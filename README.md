@@ -16,7 +16,7 @@ a `LinearLayout` that displays buttons).
 
 # Dependency Graph
 
-[dependency graph]: https://github.com/damian-burke/android-dynamic-feature/blob/master/art/dependency_graph.png
+![dependency graph](/art/dependency-graph.png?raw=true "Dependency Graph")
                         
 # Service Configuration
 
