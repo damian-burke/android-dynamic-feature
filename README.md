@@ -16,11 +16,7 @@ a `LinearLayout` that displays buttons).
 
 # Dependency Graph
 
-      [feature-dashboard]     [feature-profile]
-                        \     /
-                         [app]
-                         /   \      
-                  [core-rx] [core-other] 
+[dependency graph]: https://github.com/damian-burke/android-dynamic-feature/blob/master/art/dependency_graph.png
                         
 # Service Configuration
 
