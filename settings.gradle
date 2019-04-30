@@ -1,0 +1,2 @@
+include ':app', ':core-rx', ':core-other', ':feature_dashboard', ':feature_profile', ':core-feature'
+rootProject.name='service based app'

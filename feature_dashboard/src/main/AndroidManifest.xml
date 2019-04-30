@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.brainasaservice.feature.dashboard">
+
+    <dist:module
+        dist:instant="false"
+        dist:onDemand="true"
+        dist:title="@string/module_name">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".DashboardActivity" />
+
+        <provider android:name=".ServiceProvider"
+            android:authorities="${applicationId}.dashboard.initializationProvider"
+            android:exported="false"/>
+    </application>
+</manifest>
