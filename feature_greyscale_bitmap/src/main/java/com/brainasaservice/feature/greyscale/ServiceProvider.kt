@@ -1,4 +1,4 @@
-package com.brainasaservice.feature.dashboard
+package com.brainasaservice.feature.greyscale
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -13,8 +13,8 @@ class ServiceProvider : ContentProvider() {
     override fun query(p0: Uri, p1: Array<String>?, p2: String?, p3: Array<String>?, p4: String?): Cursor? = null
 
     override fun onCreate(): Boolean {
-        Log.i("Service", "Initializing...")
-        ServiceRegistry.getInstance().register(DashboardServiceConfiguration())
+        Log.i("Service", "Initializing Greyscaler...")
+        ServiceRegistry.getInstance().register(GreyscaleServiceConfiguration())
         return true
     }
 

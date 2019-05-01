@@ -1,17 +1,15 @@
 package com.brainasaservice.service
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.widget.Button
+import android.os.Handler
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuCompat
-import androidx.core.view.MenuItemCompat
-import com.brainasaservice.core.feature.capability.ButtonCapability
-import com.brainasaservice.core.feature.capability.MenuCapability
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
+import com.brainasaservice.core.feature.capability.ImageProcessorCapability
+import com.brainasaservice.core.feature.capability.ViewCapability
+import com.brainasaservice.core.feature.getCapabilities
 import kotlinx.android.synthetic.main.activity_main.contentLayout
-import kotlinx.android.synthetic.main.activity_main.view.contentLayout
-import java.lang.IllegalStateException
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,32 +17,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val featureRegistry = FeatureRegistry.getInstance()
+        val serviceRegistry = ServiceRegistry.getInstance()
 
-        Log.i("Mainn", "We found ${featureRegistry.getList().size} features.")
+        val drawable = ContextCompat.getDrawable(this, R.drawable.bench)
+        var bitmap = drawable?.toBitmap()
 
-        featureRegistry.getList().forEach { feature ->
-            if (feature.capabilities.any { it is ButtonCapability }) {
-                val buttonCapability = feature.capabilities.first { it is ButtonCapability } as ButtonCapability
-                val button = Button(this).apply {
-                    text = buttonCapability.getText()
-                    setOnClickListener { buttonCapability.onClick(this@MainActivity) }
+        val imageView = ImageView(this).apply {
+            setImageBitmap(bitmap)
+        }
+
+        var index = 1
+
+        serviceRegistry.getList().forEach { feature ->
+            feature.getCapabilities<ViewCapability>().forEach { capability ->
+                contentLayout.addView(capability.inflate(this, contentLayout), index++)
+            }
+        }
+
+        contentLayout.addView(imageView, index)
+
+        serviceRegistry.getList().filter { conf -> conf.capabilities.any { it is ImageProcessorCapability } }
+                .forEach {
+                    it.getCapabilities<ImageProcessorCapability>().forEach { imageProcessorCapability ->
+                        bitmap?.let { bmp ->
+                            bitmap = imageProcessorCapability.process(bmp)
+                        }
+                    }
                 }
-                contentLayout.addView(button)
-            }
-        }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-
-        FeatureRegistry.getInstance().getList().forEach { feature ->
-            if(feature.capabilities.any { it is MenuCapability}) {
-                val capability = feature.capabilities.first { it is MenuCapability } as MenuCapability
-                menu?.add(capability.getTitle())?.let { capability.config(this@MainActivity, it) }
-            }
-        }
-
-        return true
+        Handler().postDelayed({
+            imageView.setImageBitmap(bitmap)
+        }, 3000)
     }
 }

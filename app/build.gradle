@@ -21,7 +21,9 @@ android {
         }
     }
 
-    dynamicFeatures = [":feature_profile", ":feature_dashboard"]
+    dynamicFeatures = [":feature_profile", ":feature_dashboard", ":feature_greyscale_bitmap"]
+
+
 }
 
 dependencies {

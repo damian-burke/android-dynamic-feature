@@ -1,2 +1,2 @@
-include ':app', ':core-rx', ':core-other', ':feature_dashboard', ':feature_profile', ':core-feature'
+include ':app', ':core-rx', ':core-other', ':feature_dashboard', ':feature_profile', ':core-feature', ':feature_greyscale_bitmap'
 rootProject.name='service based app'

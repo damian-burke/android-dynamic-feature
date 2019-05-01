@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.brainasaservice.feature.greyscale">
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_feature_greyscale_bitmap">
+        <dist:delivery>
+            <dist:on-demand />
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application tools:ignore="GoogleAppIndexingWarning">
+        <provider
+            android:name=".ServiceProvider"
+            android:authorities="${applicationId}.greyscale.initializationProvider"
+            android:exported="false" />
+    </application>
+</manifest>
+

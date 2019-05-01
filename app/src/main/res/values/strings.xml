@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">service based app</string>
+    <string name="title_feature_greyscale_bitmap">Greyscale</string>
 </resources>
