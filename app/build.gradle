@@ -21,28 +21,13 @@ android {
         }
     }
 
-    flavorDimensions "features"
-
-    productFlavors {
-        dashboard {
-            dimension "features"
-        }
-        profile {
-            dimension "features"
-        }
-        complete {
-            dimension "features"
-
-        }
-    }
-
     dynamicFeatures = [":feature_profile", ":feature_dashboard"]
 }
 
 dependencies {
     api project(':core-feature')
+    api project(':core-rx')
 
-    implementation project(':core-rx')
     implementation project(':core-other')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

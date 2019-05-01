@@ -21,20 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    flavorDimensions "features"
-
-    productFlavors {
-        dashboard {
-            dimension "features"
-        }
-        profile {
-            dimension "features"
-        }
-        complete {
-            dimension "features"
-        }
-    }
 }
 
 dependencies {

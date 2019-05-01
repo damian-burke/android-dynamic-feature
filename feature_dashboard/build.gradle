@@ -8,24 +8,10 @@ android {
         targetSdkVersion 28
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    flavorDimensions "features"
-
-    productFlavors {
-        dashboard {
-            dimension "features"
-        }
-        profile {
-            dimension "features"
-        }
-        complete {
-            dimension "features"
-        }
-    }
 }
 
 dependencies {
     implementation project(":app")
-    implementation project(':core-rx')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
