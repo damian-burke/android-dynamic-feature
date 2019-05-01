@@ -40,9 +40,13 @@ interface ServiceCapability
 
 Capabilities can provide UI elements like `Activity`, `Fragment` or 
 simply `View` objects - or other Android related objects like a 
-(implicit) `BroadcastReceiver`. Outside of the UI and Android sphere, 
-they can simply serve as processors for data, access databases or 
-webservices or execute other tasks. 
+(implicit) `BroadcastReceiver`. 
+
+![inject ui elements](/art/inject-ui-elements.png?raw=true "Inject UI Elements")
+
+Outside of the UI and Android sphere, they can simply serve as 
+processors for data, access databases or webservices or execute 
+other tasks. 
 
 ## Capabilities
 
@@ -132,3 +136,16 @@ If you extended existing `ServiceCapability` interfaces, they
 will automatically be used. If you created new interfaces, make sure
 you initialized them in the `core-feature` module. You also
 have to find the right spot in the `app` module to utilize them.
+
+# Todo
+
+Add an example that uses [Deep Linking](https://blog.usejournal.com/navigation-in-modular-applications-with-deep-linking-6a599c11e487
+to facilitate the navigation. Allow services to register themselves
+for certain scopes in the application's URI scheme.
+
+![deep linking](/art/navigation-executor.png?raw=true "Deep Linking")
+
+Build a more complex application with this approach: 
+- Allow services to inject items into a bottom navigation bar
+- Allow services to provide renderers for certain content types in a `RecyclerView`
+- Real-life scenario with navigation, backstack, passing data between services
