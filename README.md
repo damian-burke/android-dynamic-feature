@@ -9,10 +9,10 @@ The `app` module doesn't know anything about the specific features.
 Instead, the `core-feature` module exposes certain base capabilities 
 that define for example possible entry points into features.
 
-In this simplified approach, we have a 
-`ButtonCapability` to inject features either into the Activity menu,
-or as a Button in our `Button Navigation` (which in this case is just
-a `LinearLayout` that displays buttons).
+The goal of this approach is to explore a service-oriented architecture
+for Android applications. Each service should expose a certain API - 
+in this approach available as a set of `ServiceCapability` objects -
+which allows the application to make use of the service.
 
 # Dependency Graph
 
