@@ -20,19 +20,36 @@ a `LinearLayout` that displays buttons).
                         
 # Service Configuration
 
-- each one has a name / identifier
-- list of capabilities that can will be exposed to the app, can be used to display entry points (configured by the service)
+The service object is kept minimalistic at the moment. It only consists
+of a `String` representing the name and a `List<ServiceCapability>` to
+describe what the service offers. 
+
+```
+interface ServiceConfiguration {
+    val name: String
+    val capabilities: List<ServiceCapability>
+}
+```
+
+Each of these `ServiceCapability` objects defines a certain entry-
+point into the service. 
+
+```
+interface ServiceCapability
+```
+
+Capabilities can provide UI elements like `Activity`, `Fragment` or 
+simply `View` objects - or other Android related objects like a 
+(implicit) `BroadcastReceiver`. Outside of the UI and Android sphere, 
+they can simply serve as processors for data, access databases or 
+webservices or execute other tasks. 
 
 ## Capabilities
 
-- `FeatureCapability` as empty base interface
-- example: `ViewCapability`, `ImageProcessorCapability`
-- `ViewCapability` can inflate and return a View instance
-- `ImageProcessorCapability` performs certain processing on a `Bitmap`
-- services can have multiple capabilities: 
-  - these capabilities are basically entry points into the app
-  - could also be non-ui services, for example image processing (`ImageGreyscaleCapability` that takes a `Bitmap` as input)  
-
+In the sample application there are currently three different 
+implementations of the `ServiceCapability` interface to showcase
+different use-cases. Of course the examples don't show every possible
+use-case, but rather a small subset. 
 
 `DashboardViewCapability`
 - 
@@ -62,17 +79,55 @@ inject any UI elements but instead simply offers a service.
 
 # Service Registry
 
+The `app` module acts as the host in this scenario. Each service has
+a dependency on the `app` module and exposes its configuration to
+the `ServiceRegistry` whenever the service is available.
+
+```
+interface ServiceRegistry {
+    fun register(service: ServiceConfiguration)
+    fun getList(): List<ServiceConfiguration>
+}
+```
+
+At the moment (since it's basically just a proof of concept) the 
+registry is kept as simple as possible. The implementation simply
+keeps reference of the list and returns it, as well as offers a static
+instance of the registry.
+
 ## How Services are registered
 
-- ContentProvider is used to inject the `ServiceConfiguration` into the `ServiceRegistry` which is hosted in the `app` module
+Since the services can be loaded during runtime - i.e. they are unknown
+to the `app` module at compile time - they can not be referenced in a
+traditional way. 
 
+To ensure that each service is created and injected into the 
+`ServiceRegistry` as soon as possible, a `ContentProvider` is created
+in each service that does exactly this:
+
+```
+class ServiceProvider : ContentProvider() {
+    override fun onCreate(): Boolean {
+        ServiceRegistry.getInstance().register(DashboardServiceConfiguration())
+        return true
+    }
+}
+```
+
+The `ContentProvider` is added to the `AndroidManifest.xml` file,
+which will be merged into the final `AndroidManifest.xml` once the 
+module has been loaded. This ensures a seamless and early instantiation.
+
+[(This is also how Firebase is initialized on Android)](https://firebase.googleblog.com/2016/12/how-does-firebase-initialize-on-android.html) 
+ 
 # How to extend
 
-- Create feature module
-- Create `ServiceConfiguration` 
-- Create 1..n `ServiceCapability` subclasses
-- Create `ContentProvider` that injects the `ServiceConfiguration`
+To extend the sample project, simply create a new (dynamic-) feature
+module. Create a `ContentProvider` (see: `ServiceProvider.kt`), add 
+it to the `AndroidManifest.xml` of your new module (and make sure
+that the `authority` is unique) and inject the configuration
+of your newly created service into the `ServiceRegistry`. Done.
 
-# Limitations
-
-
+If you extended existing `ServiceCapability` interfaces, they
+will automatically be used. If you created new interfaces, you also
+have to find the right spot in the `app` module to utilize them.
