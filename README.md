@@ -129,5 +129,6 @@ that the `authority` is unique) and inject the configuration
 of your newly created service into the `ServiceRegistry`. Done.
 
 If you extended existing `ServiceCapability` interfaces, they
-will automatically be used. If you created new interfaces, you also
+will automatically be used. If you created new interfaces, make sure
+you initialized them in the `core-feature` module. You also
 have to find the right spot in the `app` module to utilize them.
