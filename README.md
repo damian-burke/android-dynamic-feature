@@ -139,7 +139,7 @@ have to find the right spot in the `app` module to utilize them.
 
 # Todo
 
-Add an example that uses [Deep Linking](https://blog.usejournal.com/navigation-in-modular-applications-with-deep-linking-6a599c11e487
+Add an example that uses [Deep Linking](https://blog.usejournal.com/navigation-in-modular-applications-with-deep-linking-6a599c11e487)
 to facilitate the navigation. Allow services to register themselves
 for certain scopes in the application's URI scheme.
 
